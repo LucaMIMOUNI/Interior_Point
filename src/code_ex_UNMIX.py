@@ -15,7 +15,7 @@ Description: An introductive Python script to generate and visualize spectral un
 
 def load_A_and_wavelengths(P):
     """ Load the dictionnary of spectra with P (max 410) columns """
-    Dic = loadmat('./spectra_USGS_ices_v2.mat') # todo change this path if needed
+    Dic = loadmat('./data/spectra_USGS_ices_v2.mat') # todo change this path if needed
     A = Dic['speclib'][:, :P]
     wavelengths = Dic['wavelength'][:, 0] # axis for the values of the measurments
     return A, wavelengths
