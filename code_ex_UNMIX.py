@@ -2,12 +2,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib.ticker import MaxNLocator
 from scipy.io import loadmat
-from itertools import cycle
-from scipy.sparse import csc_array
-from Interior_Point import interior_point, interior_point2, interior_point3, interior_point4
-
-import cProfile
-import pstats
+from Interior_Point import interior_point
 
 """
 File: code_ex_UNMIX.py
@@ -99,14 +94,14 @@ def exemple1():
     # To test the algorithm performance, you should not use debug
     debug = False
     if debug:
-        x_star, slack, lambda_, x_list, slack_list, lambda_list, rd_list, rb_list, rc_list, alpha_list, err_quadra_list = interior_point4(x0=x0_, G=G_, d=d_, A=A_, b=b_, A_bar=A_bar_, b_bar=b_bar_, y=y, D=D, tol=tol , iter_max=iter_max, do_debug=debug)
+        x_star, slack, lambda_, x_list, slack_list, lambda_list, rd_list, rb_list, rc_list, alpha_list, err_quadra_list = interior_point(x0=x0_, G=G_, d=d_, A=A_, b=b_, A_bar=A_bar_, b_bar=b_bar_, y=y, D=D, tol=tol , iter_max=iter_max, do_debug=debug)
         plt.figure()
         plt.plot(np.squeeze(err_quadra_list), label='error')
         plt.title('error evolution')
         plt.xlabel('iter')
         plt.legend()
     else:
-        x_star = interior_point3(x0=x0_, G=G_, d=d_, A=A_, b=b_, A_bar=A_bar_, b_bar=b_bar_, y=y, D=D, tol=tol , iter_max=iter_max, do_debug=debug)
+        x_star = interior_point(x0=x0_, G=G_, d=d_, A=A_, b=b_, A_bar=A_bar_, b_bar=b_bar_, y=y, D=D, tol=tol , iter_max=iter_max, do_debug=debug)
         #test = None
     do_visualisation = True
     if do_visualisation:
@@ -155,4 +150,4 @@ def exemple1():
 
 if __name__ == '__main__':
     x0_, G_, d_, A_, b_, A_bar_, b_bar_, y, D, tol, iter_max, debug = exemple1()
-    cProfile.run("interior_point3(x0=x0_, G=G_, d=d_, A=A_, b=b_, A_bar=A_bar_, b_bar=b_bar_, y=y, D=D, tol=tol , iter_max=iter_max, do_debug=debug)", "profiling_results.prof")
+    #cProfile.run("interior_point(x0=x0_, G=G_, d=d_, A=A_, b=b_, A_bar=A_bar_, b_bar=b_bar_, y=y, D=D, tol=tol , iter_max=iter_max, do_debug=debug)", "profiling_results.prof")
