@@ -6,7 +6,7 @@ This project was developed in collaboration with Baptiste LARDINOIT, within the 
 ## Context
 The exploration of Mars has yielded a vast dataset, particularly spectrographic data of Martian soil. Analyzing this data can help identify the mineral composition of Mars, thereby enhancing our understanding of the planet's past.
 
-![Mars_soil](https://github.com/user-attachments/assets/23910554-6601-4588-8826-a4e8eec51f05)
+<img src="https://github.com/user-attachments/assets/23910554-6601-4588-8826-a4e8eec51f05" alt="Mars_soil" width="500"/>
 
 *Picture of Martian soil*
 
@@ -22,21 +22,22 @@ The Least-Squared criterion can be reformulated as a quadratic program with line
 
 To solve such a constrained problem, we can utilize the **perturbed KKT** conditions to reformulate the constrained problem into a system of equations:
 
-![KKT](https://github.com/user-attachments/assets/fb9e3cb6-7234-4062-94d8-194e54dbc634)
+<img src="https://github.com/user-attachments/assets/fb9e3cb6-7234-4062-94d8-194e54dbc634" alt="KKT" width="600"/>
+
 
 ## Results and Discussion
 
-Consider the following example problem: *Given a hyperspectral cube of Martian soil (observation), we aim to identify $k=3$ end-members from a dictionary of $p=90$ spectra that minimize the Least-Squares criterion and determine their proportions, while adhering to the constraints of positivity and summing to 1.*
+Consider the following example problem: *Given a hyperspectral cube of Martian soil (observation), we aim to identify $k$=3 end-members from a dictionary of $p$=90 spectra that minimize the Least-Squares criterion and determine their proportions, while adhering to the constraints of positivity and summing to 1.*
 
 We then compare two methods: the Least-Squares solution $x_{star} = (D^T D)^{-1} D^T y$ and our *Interior-Point algorithm* for this specific problem.
 
-![LS](https://github.com/user-attachments/assets/85f83f4b-3954-4608-ba69-4adb19edefc2)
+<img src="https://github.com/user-attachments/assets/85f83f4b-3954-4608-ba69-4adb19edefc2" alt="LS" width="600"/>
 
-![IP](https://github.com/user-attachments/assets/95bab0bc-6ffb-4b1b-97a6-a86c83fbad0f)
+<img src="https://github.com/user-attachments/assets/95bab0bc-6ffb-4b1b-97a6-a86c83fbad0f" alt="IP" width="600"/>
 
 The results are promising, as the solution obtained by the Interior-Point method yields an error of approximately $10^{-2}$ with a Signal-to-Noise Ratio (SNR) of $28$ dB, while maintaining the sum of the components equal to 1. However, further improvements are necessary, particularly in fully respecting the positivity constraint and ensuring more components are zero.
 
 It is important to note that this algorithm is employed within the context of a *Branch & Bound algorithm*. The primary objective here is to quickly evaluate whether a specific combination of minerals could be a viable candidate for the Martian soil mineral composition. The goal was to obtain the value of the objective function within a few iterations, enabling smarter and faster exploration of the solution tree, which we successfully achieved.
 
-![error_vs_iteration](https://github.com/user-attachments/assets/970d601c-da10-4d8f-aef0-c18ced9eb23f)
+<img src="https://github.com/user-attachments/assets/970d601c-da10-4d8f-aef0-c18ced9eb23f" alt="error" width="600"/>
 
