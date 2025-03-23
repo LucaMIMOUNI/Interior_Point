@@ -32,23 +32,23 @@ def generate_x(K, P, a_min=0.1):
     return x
 
 
-def exemple1():
+def exemple1(P=100, K=3, sigma=0.0064):
     ##############
     # Parameters #
     ##############
-    N = 111 # number of spectra in the dictionary
-    D, wv = load_A_and_wavelengths(N) # D has L (=113 wavelengths) rows, N columns (spectra)
+    #P = 100 # number of spectra in the dictionary
+    D, wv = load_A_and_wavelengths(P) # D has L (=113 wavelengths) rows, P columns (spectra)
     L = D.shape[0]
-    K = 5 # sparsity --> number of nonzero coefficient i.e. activated spectra
-    sigma = 0.164 #1e-100 # noise amplitude, for instance 0.013 or 1e-100 (near 0, SNR about 2000 dB)
+    #K = 3 # sparsity --> number of nonzero coefficient i.e. activated spectra
+    #sigma = 0.0064 #1e-100 # noise amplitude, for instance 0.013 or 1e-100 (near 0, SNR about 2000 dB)
 
     #################
     # A Simple Case #
     #################
-    do_simple_case = True
+    do_simple_case = False
     if do_simple_case:
-        N = 35
-        D, wv = load_A_and_wavelengths(N)
+        P = 35
+        D, wv = load_A_and_wavelengths(P)
         L = D.shape[0]
         K = 4
         sigma = 1e-100
@@ -58,11 +58,11 @@ def exemple1():
     #################
 
     ### Random seed set for reproducibility
-    seed = 42
+    seed = 40
     np.random.seed(seed)
 
     ### Data generation
-    x_gt = generate_x(K, N) # ground truth (K non-zero values choose between P spectras).
+    x_gt = generate_x(K, P) # ground truth (K non-zero values choose between P spectras).
     y_gt = D@x_gt # noiseless signal
     y = y_gt + sigma*np.random.randn(L)
     y[y < 0] = 0. # even with strong noise, the sensor will never detect a negative amount of photons
@@ -79,13 +79,13 @@ def exemple1():
         ##################
         # Initialisation #
         ##################
-    A_ = np.eye(N)
-    b_ = np.zeros((N,1))
-    A_bar_ = np.ones((1,N))
+    A_ = np.eye(P)
+    b_ = np.zeros((P,1))
+    A_bar_ = np.ones((1,P))
     b_bar_ = np.array([1])
     G_ = D.T@D
     d_ = -(D.T@y).reshape(-1,1)
-    x0_ = (1/N)*np.ones((N,1))
+    x0_ = (1/P)*np.ones((P,1))
     iter_max = 100
     tol = 1e-5
         #######################
@@ -123,7 +123,7 @@ def exemple1():
         plt.plot(wv, y, 'b', linewidth=1, alpha=0.8, label=r'$y (Noised signal)$')
         plt.plot(wv, y_gt, 'g--', linewidth=1.2, label=r'$y_{gt} (Ground Truth)$')
         plt.plot(wv, D@x_star, 'r', label=r'$y_{pred} (prediction)$')
-        plt.title("Received data, SNR = %d dB"%SNR); plt.ylabel("Amplitude"); plt.xlabel("Wavelength (µm)"); plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+        plt.title(f"Number of Spectra P = {P} - Received data, SNR = {int(SNR)} dB"); plt.ylabel("Amplitude"); plt.xlabel("Wavelength (µm)"); plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
         # Plot the spectra involved
         plt.subplot(312)
         for p,x_p in enumerate(x_gt):
@@ -140,7 +140,7 @@ def exemple1():
         plt.setp(markerline, markersize=8)
         markerline, _, _ = plt.stem(x_star_cut, linefmt="r--", label="Solution found");  plt.setp(markerline, markersize=5)
         plt.title("Activated columns and their amplitudes, err = %.3e"%err); plt.ylabel("Coefficients values"); plt.xlabel("Index"); plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-        plt.xlim([-0.5, N-0.5]); ax = plt.gca(); ax.xaxis.set_major_locator(MaxNLocator(integer=True)); plt.xticks(list(set(list(np.where(x_star>=1e-15)[0])+list(np.where(x_gt>1e-15)[0]) ))) # show xticks for included spectra only
+        plt.xlim([-0.5, P-0.5]); ax = plt.gca(); ax.xaxis.set_major_locator(MaxNLocator(integer=True)); plt.xticks(list(set(list(np.where(x_star>=1e-15)[0])+list(np.where(x_gt>1e-15)[0]) ))) # show xticks for included spectra only
         plt.tight_layout()
         plt.show()
         pass
@@ -149,5 +149,5 @@ def exemple1():
 
 
 if __name__ == '__main__':
-    x0_, G_, d_, A_, b_, A_bar_, b_bar_, y, D, tol, iter_max, debug = exemple1()
+    x0_, G_, d_, A_, b_, A_bar_, b_bar_, y, D, tol, iter_max, debug = exemple1(P=100, K=3, sigma=0.0164)
     #cProfile.run("interior_point(x0=x0_, G=G_, d=d_, A=A_, b=b_, A_bar=A_bar_, b_bar=b_bar_, y=y, D=D, tol=tol , iter_max=iter_max, do_debug=debug)", "profiling_results.prof")
