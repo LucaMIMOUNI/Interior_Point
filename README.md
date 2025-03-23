@@ -1,27 +1,42 @@
 # Interior Point Algorithm
 
 ## Claim
-*This project was made with Baptiste LARDINOIT, in the context of Nils FOIX-COLONIER Ph.D on UNMIXING problems supervised by Sebastien BOURGIGNON, research Professor of Centrale Nantes Laboratory LS2N.*
+This project was developed in collaboration with Baptiste LARDINOIT, within the framework of Nils FOIX-COLONIER's Ph.D. research on UNMIXING problems, supervised by Sébastien BOURGUIGNON, Research Professor at the LS2N Laboratory of Centrale Nantes.
 
 ## Context
-Space exploration of Planet Mars has led to a wide set of data, especially spectrography of the Mars soil. Analysis of these data could help us identify the Mars mineral composition and thus understand better the past of this planet.
+The exploration of Mars has yielded a vast dataset, particularly spectrographic data of Martian soil. Analyzing this data can help identify the mineral composition of Mars, thereby enhancing our understanding of the planet's past.
 
 ![Mars_soil](https://github.com/user-attachments/assets/23910554-6601-4588-8826-a4e8eec51f05)
 
-*Picture of the Mars soil*
+*Picture of Martian soil*
 
-To model this problem, lets consider a dictionnary $D$ (nxp) with p spectras, each composed by n wavelength data; then lets denote $y$ the observation (n), possibly noised and supposed to be a linear combination of $k$ columns of $D$, where $k << p$. The goal of UNMIXING problems is to find the best $x$ vector (p) that contain the right proportion of each mineral in the observation while satisfying physics constraints.
+To model this problem, consider a dictionary $D$ (nxp) with $p$ spectra, each consisting of $n$ wavelength data points. Let $y$ be the observation vector (n), which may be noisy and is assumed to be a linear combination of $k$ columns of $D$, where $k \ll p$. The goal of UNMIXING problems is to find the optimal vector $x$ (p) that contains the correct proportion of each mineral in the observation while satisfying physical constraints.
 
-Different algorithm can be used to solve Spectral UNMIXING problems. Here we choose to develop an **Interior-Point** methode to minimise the Least-Squared criteria $||y-Dx||$ under constraints $\sum x_i = 1$ and $x_i \geq 0$  
+Various algorithms can be employed to solve Spectral UNMIXING problems. In this project, we have chosen to develop an **Interior-Point** method to minimize the Least-Squared criterion $||y - Dx||$ under the constraints $\sum x_i = 1$ and $x_i \geq 0$.
 
 ## Quadratic Program
 
-The Least-Squared criteria can be reformulated as a quadratic program with linear constraint; which is why we can use an Interior-Point algorithm to solve this problem. Thus, our problem can be formulated as $min_x 0.5 x^T G x + d^T x$ s.c $A_{ineq} x \geq b_{ineq}$ and $A_eq x = b_eq$ with $G = D^T D$ and $d=-D^T y$.
+The Least-Squared criterion can be reformulated as a quadratic program with linear constraints, making it suitable for solution using an Interior-Point algorithm. Thus, our problem can be formulated as $\min_x 0.5 x^T G x + d^T x$ subject to $A_{ineq} x \geq b_{ineq}$ and $A_{eq} x = b_{eq}$, where $G = D^T D$ and $d = -D^T y$.
 
-## KKT pertubated
+## Perturbed KKT Conditions
 
-To solve such constrained problem, we can used the **pertubated KKT** theorem to reformulate the constrained problem to a system of equation:
+To solve such a constrained problem, we can utilize the **perturbed KKT** conditions to reformulate the constrained problem into a system of equations:
 
 ![KKT](https://github.com/user-attachments/assets/fb9e3cb6-7234-4062-94d8-194e54dbc634)
 
-## Results and discussion
+## Results and Discussion
+
+Consider the following example problem: *Given a hyperspectral cube of Martian soil (observation), we aim to identify $k=3$ end-members from a dictionary of $p=90$ spectra that minimize the Least-Squares criterion and determine their proportions, while adhering to the constraints of positivity and summing to 1.*
+
+We then compare two methods: the Least-Squares solution $x_{star} = (D^T D)^{-1} D^T y$ and our *Interior-Point algorithm* for this specific problem.
+
+![LS](https://github.com/user-attachments/assets/85f83f4b-3954-4608-ba69-4adb19edefc2)
+
+![IP](https://github.com/user-attachments/assets/95bab0bc-6ffb-4b1b-97a6-a86c83fbad0f)
+
+The results are promising, as the solution obtained by the Interior-Point method yields an error of approximately $10^{-2}$ with a Signal-to-Noise Ratio (SNR) of $28$ dB, while maintaining the sum of the components equal to 1. However, further improvements are necessary, particularly in fully respecting the positivity constraint and ensuring more components are zero.
+
+It is important to note that this algorithm is employed within the context of a *Branch & Bound algorithm*. The primary objective here is to quickly evaluate whether a specific combination of minerals could be a viable candidate for the Martian soil mineral composition. The goal was to obtain the value of the objective function within a few iterations, enabling smarter and faster exploration of the solution tree, which we successfully achieved.
+
+![error_vs_iteration](https://github.com/user-attachments/assets/970d601c-da10-4d8f-aef0-c18ced9eb23f)
+
