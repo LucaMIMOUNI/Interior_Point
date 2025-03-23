@@ -31,9 +31,8 @@ Consider the following example problem: *Given a hyperspectral cube of Martian s
 
 We then compare two methods: the Least-Squares solution $x_{star} = (D^T D)^{-1} D^T y$ and our *Interior-Point algorithm* for this specific problem.
 
-<img src="https://github.com/user-attachments/assets/85f83f4b-3954-4608-ba69-4adb19edefc2" alt="LS" width="600"/>
+<img src="https://github.com/user-attachments/assets/533a2ad1-6614-48ef-b289-d98d0f36a326" alt="LSvsIP" width="900"/>
 
-<img src="https://github.com/user-attachments/assets/95bab0bc-6ffb-4b1b-97a6-a86c83fbad0f" alt="IP" width="600"/>
 
 The results are promising, as the solution obtained by the Interior-Point method yields an error of approximately $10^{-2}$ with a Signal-to-Noise Ratio (SNR) of $28$ dB, while maintaining the sum of the components equal to 1. However, further improvements are necessary, particularly in fully respecting the positivity constraint and ensuring more components are zero.
 
