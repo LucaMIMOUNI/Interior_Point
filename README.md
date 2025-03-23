@@ -3,6 +3,9 @@
 ## Claim
 This project was developed in collaboration with Baptiste LARDINOIT, within the framework of Nils FOIX-COLONIER's Ph.D. research on UNMIXING problems, supervised by Sébastien BOURGUIGNON, Research Professor at the LS2N Laboratory of Centrale Nantes.
 
+## Testing the algorithm
+In the `code_ex_UNMIX.py`, you can specify respectively the *number of spectra* to search in the dictionnary, the *number of atomes* (end-members) and the *noise std*, for exemple `exemple1(P=90, K=3, sigma=0.0164)`; then just run the code to plot the results.
+
 ## Context
 The exploration of Mars has yielded a vast dataset, particularly spectrographic data of Martian soil. Analyzing this data can help identify the mineral composition of Mars, thereby enhancing our understanding of the planet's past.
 
