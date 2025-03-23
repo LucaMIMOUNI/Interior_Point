@@ -16,4 +16,12 @@ Different algorithm can be used to solve Spectral UNMIXING problems. Here we cho
 
 ## Quadratic Program
 
-The Least-Squared criteria can be reformulated as a quadratic program with linear constraint; which is why we can use an Interior-Point algorithm to solve this problem. Thus, our problem can be formulated as $min_x 0.5 x^T G x + d^T x$ s.c $A_{ineq} x \geq b_{ineq}$ and $A_eq x = b_eq$
+The Least-Squared criteria can be reformulated as a quadratic program with linear constraint; which is why we can use an Interior-Point algorithm to solve this problem. Thus, our problem can be formulated as $min_x 0.5 x^T G x + d^T x$ s.c $A_{ineq} x \geq b_{ineq}$ and $A_eq x = b_eq$ with $G = D^T D$ and $d=-D^T y$.
+
+## KKT pertubated
+
+To solve such constrained problem, we can used the **pertubated KKT** theorem to reformulate the constrained problem to a system of equation:
+
+![KKT](https://github.com/user-attachments/assets/fb9e3cb6-7234-4062-94d8-194e54dbc634)
+
+## Results and discussion
