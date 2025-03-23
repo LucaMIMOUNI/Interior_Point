@@ -16,4 +16,4 @@ Different algorithm can be used to solve Spectral UNMIXING problems. Here we cho
 
 ## Quadratic Program
 
-The Least-Squared criteria can be reformulated as a quadratic program with linear constraint; which is why we can use an Interior-Point algorithm to solve this problem.
+The Least-Squared criteria can be reformulated as a quadratic program with linear constraint; which is why we can use an Interior-Point algorithm to solve this problem. Thus, our problem can be formulated as $min_x 0.5 x^T G x + d^T x$ s.c $A_{ineq} x \geq b_{ineq}$ and $A_eq x = b_eq$
